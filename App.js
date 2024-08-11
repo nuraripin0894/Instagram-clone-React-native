@@ -1,20 +1,59 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { TamaguiProvider, createTamagui} from '@tamagui/core'
+import { View, StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { config } from '@tamagui/config/v3'
+import { useFonts } from 'expo-font'
+import Header from './components/Header'
+import Stories from './components/Stories'
+import BottomNavigation from './navigator/BottomNavigation'
+import { ScrollView } from 'tamagui'
+import Post from './components/Post'
 
-export default function App() {
+const tamaguiConfig = createTamagui(config)
+
+export default () => {
+  const [loaded] = useFonts({
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+  })
+
+  if (!loaded) {
+    return null
+  }
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <TamaguiProvider config={tamaguiConfig}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+        <ScrollView vertical >
+            <Header />
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <Stories />
+            </ScrollView>
+              <Post />
+        </ScrollView>
+        </View>
+        <View style={styles.bottomContainer}>
+          <BottomNavigation />
+        </View>
+      </SafeAreaView>
+    </TamaguiProvider>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end', 
   },
+  content: {
+    flex: 1, 
+  },
+  bottomContainer: {
+    position: 'fixed',
+    borderTopWidth: 0.5, 
+    borderTopColor: 'gray',
+    paddingBottom: 7,
+    paddingTop: 7,
+  }
 });
