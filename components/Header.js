@@ -14,7 +14,9 @@ const Header = () => {
       }}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image style={{height:55, width: 110, resizeMode: 'contain'}} source={require('../assets/instagram/fontlogo.png')}/>
-        <FontAwesome6 name="chevron-down" size={13} color="black" style={{marginLeft: 5, marginTop: -5}} />
+        <TouchableOpacity>
+          <FontAwesome6 name="chevron-down" size={13} color="black" style={{marginLeft: 5, marginTop: -5}} />
+        </TouchableOpacity>
       </View>
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity style={{marginRight: 15}}>

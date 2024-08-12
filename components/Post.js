@@ -1,4 +1,4 @@
-import { Image, Dimensions, Text, View } from 'react-native';
+import { Image, Dimensions, Text, View, TouchableOpacity } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -36,25 +36,29 @@ const timeAgo = (timestamp) => {
 const Post = () => {
   return (
     <View style={{marginTop: 2}}>
-      {UserData.map((item, index) => {
+      {UserData.map((item) => {
         return(
-            <View key={index} style={{marginTop: 10}}>
+            <View key={item.id} style={{marginTop: 10}}>
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     paddingHorizontal: 10,
                     marginBottom: 8
                 }}>
-                    <Image style={{height: 30, width: 30, borderRadius: 15}}
-                        source={{uri: item.imageUrl}} />
-                    <Text style={{
-                        paddingLeft: 10,
-                        fontSize: 16,
-                        fontWeight: 600,
-                        color: 'black'
-                    }}>
-                        {item.username}
-                    </Text>
+                    <TouchableOpacity>
+                        <Image style={{height: 30, width: 30, borderRadius: 15}}
+                            source={{uri: item.imageUrl}} />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Text style={{
+                            paddingLeft: 10,
+                            fontSize: 16,
+                            fontWeight: 600,
+                            color: 'black'
+                        }}>
+                            {item.username}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View>
                     <Image style={{
@@ -67,50 +71,69 @@ const Post = () => {
                     marginHorizontal: 10, 
                     marginTop: 7 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                        <Feather name="heart" size={24} color="black" />
-                        <Ionicons name="chatbubble-outline" size={24} color="black" style={{ transform: [{ scaleX: -1 }] }} />
-                        <Ionicons name="paper-plane-outline" size={24} color="black" />
+                        <TouchableOpacity>
+                            <Feather name="heart" size={24} color="black" />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Ionicons name="chatbubble-outline" size={24} color="black" style={{ transform: [{ scaleX: -1 }] }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity>  
+                            <Ionicons name="paper-plane-outline" size={24} color="black" />
+                        </TouchableOpacity>
                     </View>
-                    <FontAwesome name="bookmark-o" size={24} color="black" />
+                    <TouchableOpacity>
+                        <FontAwesome name="bookmark-o" size={24} color="black" />
+                    </TouchableOpacity>
                 </View>
-                <View style={{ 
-                    flexDirection: 'row', 
-                    alignItems: 'center', 
-                    marginHorizontal: 10, 
-                    marginTop: 5 }}>
-                    {item.feed.friendLikes.map((friend, index) => (
-                        <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
-                            <View style={{ 
-                                width: 30, 
-                                height: 30, 
-                                alignItems: 'center', 
-                                justifyContent: 'center', 
-                                borderWidth: 3, 
-                                borderColor: '#FFFFFF', 
-                                borderRadius: 200, 
-                                marginRight: -15 }}>
-                                <Image source={{ uri: friend.imageUrl }} style={{ width: '100%', height: '100%', 
-                                    borderRadius: 200, objectFit: 'cover', borderWidth: 1, borderColor: 'gray' }} />
+                <TouchableOpacity>
+                    <View style={{ 
+                        flexDirection: 'row', 
+                        alignItems: 'center', 
+                        marginHorizontal: 10, 
+                        marginTop: 5 }}>
+                        {item.feed.friendLikes.map((friend) => (
+                            <View  key={friend.friendLikeId} style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
+                                <View style={{ 
+                                    width: 30, 
+                                    height: 30, 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center', 
+                                    borderWidth: 3, 
+                                    borderColor: '#FFFFFF', 
+                                    borderRadius: 200, 
+                                    marginRight: -15 }}>
+                                    <Image source={{ uri: friend.imageUrl }} style={{ width: '100%', height: '100%', 
+                                        borderRadius: 200, objectFit: 'cover', borderWidth: 1, borderColor: 'gray' }} />
+                                </View>
                             </View>
-                        </View>
-                    ))}
-                    <Text style={{ 
-                        fontWeight: '400', 
-                        fontSize: 12, 
-                        color: '#000000', 
-                        marginLeft: 18 }}> Liked by {item.feed.friendLikes[0].name} and {item.feed.totalLikes - 1} others
-                    </Text>
-                </View>
+                        ))}
+                        <Text style={{ 
+                            fontWeight: '400', 
+                            fontSize: 12, 
+                            color: '#000000', 
+                            marginLeft: 18 }}> Liked by {item.feed.friendLikes[0].name} and {item.feed.totalLikes - 1} others
+                        </Text>
+                    </View>
+                </TouchableOpacity>
                 <View style={{ marginHorizontal: 10, marginTop: 5 }}>
-                    <Text><Text style={{ marginHorizontal: 10, fontWeight: 'bold', color: '#000000' }}>
-                        {item.username} </Text>{item.feed.caption}
-                    </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity>
+                            <Text style={{ fontWeight: 'bold', color: '#000000' }}>
+                                {item.username}
+                            </Text>
+                        </TouchableOpacity>
+                        <Text style={{ marginLeft: 5 }}>
+                            {item.feed.caption}
+                        </Text>
+                    </View>
                 </View>
-                <View style={{ marginHorizontal: 10, marginTop: 5 }}>
-                    <Text style={{ fontWeight: '600', fontSize: 12, color: '#a3a3a3' }}>
-                        View all {item.feed.totalComments} comments
-                    </Text>
-                </View>
+                <TouchableOpacity>
+                    <View style={{ marginHorizontal: 10, marginTop: 5 }}>
+                        <Text style={{ fontWeight: '600', fontSize: 12, color: '#a3a3a3' }}>
+                            View all {item.feed.totalComments} comments
+                        </Text>
+                    </View>
+                </TouchableOpacity>
                 <View style={{ marginHorizontal: 10, marginTop: 5, marginBottom: 7 }}>
                     <Text style={{ fontWeight: '400', fontSize: 12, color: '#a3a3a3' }}>
                         {timeAgo(item.feed.postDate)}
